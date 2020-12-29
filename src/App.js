@@ -2,9 +2,8 @@ import React, { Component } from "react";
 import { Link, Switch, Route } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 
-//import { CaseModelList, AddCaseModel, CaseModel } from "react"
-
 import {MainCase,AllCases,CityCases,DateCases, AddCases} from './components/Main'
+import {DateCharter,CityCharter,Charter} from './components/Main'
 
 export default class App extends Component{
   render(){
@@ -14,7 +13,7 @@ export default class App extends Component{
           <div className="navbar-nav mr-auto">
             <li className="nav-item">
               <Link to={"/"} className="nav-link">
-                <h5>CaseModel</h5>
+                <h5>KoroVeri</h5>
               </Link>
             </li>
             <li className="nav-item">
@@ -27,15 +26,9 @@ export default class App extends Component{
                 Add
               </Link>
             </li>
-			<li className="nav-item">
-              <Link to={"/city"} className="nav-link">
-                City
-              </Link>
-            </li>
-
-			<li className="nav-item">
-              <Link to={"/date"} className="nav-link">
-                Date
+            <li className="nav-item">
+              <Link to={"/chart"} className="nav-link">
+                Chart
               </Link>
             </li>
           </div>
@@ -44,11 +37,12 @@ export default class App extends Component{
           <Switch>
             <Route exact path={["/"]} component={MainCase} />
             <Route exact path={["/all"]} component={AllCases} />
-            <Route 
-              exact path="/city/:attr"
+            <Route exact path="/city/:attr"
               children={({ match }) => match && <CityCases match={match} />}
             />
-
+            <Route exact path={["/chart"]} component={Charter} />
+            <Route exact path={["/chart/date"]} component={DateCharter} />
+            <Route exact path={["/chart/city"]} component={CityCharter} />
             <Route 
               exact path={["/date/:attr"]} component={DateCases}
                children={({ match }) => match && <DateCases match={match} />}/>

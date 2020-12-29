@@ -8,7 +8,7 @@ const CaseModelAllCase = () => {
 	
 	var datalist=[]
 	var response
-	var inputlist=[]
+  var text
   
   //this function gets all data from mongodb through REST API
   async function fetcher(){    
@@ -19,14 +19,18 @@ const CaseModelAllCase = () => {
     let res = response.data
 
     //res is the array of JSON documents, datalist keeps each document as a string object
+    text="<ul>"
     res.forEach(element => {
-        var record = [JSON.stringify(element["id"]),element["tarih"],element["il"],element["vaka"],element["vefat"],element["taburcu"]]
+        let linked_tarih = "<a href="+"http://localhost:3000/CaseModel/date/"+ element["tarih"] + ">" + element["tarih"] + "></a>"
+        let linked_sehir = "<a href="+"http://localhost:3000/CaseModel/city/"+ element["il"] + ">" + element["il"] + "></a>"
+        var record = [JSON.stringify(element["id"]),linked_tarih,linked_sehir,element["vaka"],element["vefat"],element["taburcu"]]
         console.log("record: "+record)
 
         //this.datalist.push(JSON.stringify(element,null,2)+"\r")
+        text += "<li>" + record + "</li>";
         datalist.push(record)
-    });   
-
+    })   
+    text += "</ul>"
     //report the JSON content as strings
     console.log("Data Fetch:\n"+datalist)
   }
@@ -36,13 +40,13 @@ const CaseModelAllCase = () => {
 
     if(index.length===0){
       setTimeout(
-        () => myRef.current.innerHTML = datalist,500
+        () => myRef.current.innerHTML = text,500
       )   
     }
     //otherwise show the specified record
     else{
       setTimeout(
-        () => myRef.current.innerHTML = datalist[index[0]],500
+        () => myRef.current.innerHTML = text,500
       )   
     }
   }    
