@@ -3,7 +3,8 @@ import { Link, Switch, Route, useParams } from 'react-router-dom'
 import CaseModelAllCase from '../components/CaseModelAll';
 import axios from 'axios'
 import CanvasJSReact from '../lib/canvasjs.react';
-
+import {CanvasJS} from '../lib/canvasjs.min.js';
+import Chart  from 'chart.js'
 //GLOBALS
 var textDate
 var textCity
@@ -25,7 +26,6 @@ const AllCases = () => {
 
   )
   
-
 }
 
 const MainCase = () => {
@@ -73,40 +73,107 @@ const DateCases = (prop) => {
 }
 
 const DateCharter = () => {
-  render()
-  
-  return (
-	<div>
-			<h1>Adding through CanvasJSReact...</h1><br></br>
+  var CanvasJS = CanvasJSReact.CanvasJS;
+  var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-     	<div id="chartContainer" style={{height : "300px", width: "100%"}}></div>
-          
-        
-      <div id="chartContainer" style={{height : "300px", width: "100%"}} ></div>
-     	
-	</div>
-   
-  );
+  var arrVaka =  [  { label: "11-08-2012",  y: 12  },
+                    { label: "05-12-2013", y: 15  },
+                    { label: "24-05-2017", y: 3  },
+                    { label: "24-06-2017",  y: 38  },
+                    { label: "01-01-2021",  y: 35  }]
+  
+  var arrVefat = [
+                    { label: "11-08-2012",  y: 22  },
+                    { label: "05-12-2013", y: 11  },
+                    { label: "24-05-2017", y: 36  },
+                    { label: "24-06-2017",  y: 22  },
+                    { label: "01-01-2021",  y: 9  }]
+  
+  var arrTaburcu = [{ label: "11-08-2012",  y: 3  },
+                    { label: "05-12-2013", y: 5  },
+                    { label: "24-05-2017", y: 16  },
+                    { label: "24-06-2017",  y: 21  },
+                    { label: "01-01-2021",  y: 3  }]
+  const options = {
+      title: { text: "Sample Date Chart ( Vaka - Vefat - Taburcu )" },
+      data: [ {				
+                type: "column",
+                name: "VakaColumn",
+                dataPoints: arrVaka
+              },
+              {				
+                type: "column",
+                name: "VefatColumn",
+                dataPoints: arrVefat
+              },
+              {				
+                type: "column",
+                name: "TaburcuColumn",
+                dataPoints: arrTaburcu
+              }
+      ]
+   }
+		
+   return (
+      <div>
+        <CanvasJSChart options = {options}
+            /* onRef = {ref => this.chart = ref} */
+        />
+      </div>
+    );
 }
 
 const CityCharter = () => {
-  render()
-  return (
-	<div>
-      <h1>Adding through CanvasJSReact...</h1><br></br>
+  var CanvasJS = CanvasJSReact.CanvasJS;
+  var CanvasJSChart = CanvasJSReact.CanvasJSChart;
 
-     	<div id="chartContainer" style={{height : "300px", width: "100%"}}></div>
-          
+  var arrVaka =  [  { label: "Ankara",  y: 15  },
+                    { label: "Izmir", y: 5  },
+                    { label: "Istanbul", y: 21  },
+                    { label: "Washington",  y: 22  },
+                    { label: "Berlin",  y: 5  }]
+  
+  var arrVefat = [
+                    { label: "Ankara",  y: 34  },
+                    { label: "Izmir", y: 12  },
+                    { label: "Istanbul", y: 21  },
+                    { label: "Washington",  y: 8  },
+                    { label: "Berlin",  y: 17  }]
+  
+  var arrTaburcu = [{ label: "Ankara",  y: 25  },
+                    { label: "Izmir", y: 15  },
+                    { label: "Istanbul", y: 13  },
+                    { label: "Washington",  y: 42  },
+                    { label: "Berlin",  y: 27  }]
+  const options = {
+      title: { text: "Sample City Chart ( Vaka - Vefat - Taburcu )" },
+      data: [ {				
+                type: "column",
+                name: "VakaColumn",
+                dataPoints: arrVaka
+              },
+              {				
+                type: "column",
+                name: "VefatColumn",
+                dataPoints: arrVefat
+              },
+              {				
+                type: "column",
+                name: "TaburcuColumn",
+                dataPoints: arrTaburcu
+              }
+      ]
+   }
+		
+   return (
       <div>
-        
-      <div id="chartContainer" style={{height : "300px", width: "100%"}} ></div>
-     
-
-    </div>
-
-	</div>
-   
-  );
+        <CanvasJSChart options = {options}
+            /* onRef = {ref => this.chart = ref} */
+        />
+      </div>
+    );
+  
+ 
 }
 
 const Charter = () => {
@@ -128,7 +195,6 @@ const Charter = () => {
 export {MainCase,AllCases,CityCases,AddCases,DateCases,DateCharter,CityCharter,Charter}
 
 //////////////////////////////////// DATE AND CITY OPERATIONS //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 function getCities(prop){
   var myRef=React.createRef()	
 	var datalist=[]
@@ -173,7 +239,7 @@ function getDates(prop){
 
   //save reference of the datalist to HTML using react reference, then transfer it to an HTML object  
   var mate = function(...index){
-	//if there is no imput, show all records
+	//if there is no input, show all records
     
 
     if(index.length===0){
@@ -213,7 +279,7 @@ async function fetcherCities(prop,response,datalist){
   
 	path = path.substr(1)
 	path = path.substr(0,path.length-1)
-	console.log(path)
+	console.log("fetched path: " + path)
 
 	let url = 'http://localhost:8080/CaseModel/'+route+ path	
   response = await axios(url);
@@ -225,10 +291,10 @@ async function fetcherCities(prop,response,datalist){
   textCity="<ul>"
   response.data.forEach(element => {
       
-      var record = [JSON.stringify(element["id"]),element["tarih"],element["il"],element["vaka"],element["vefat"],element["taburcu"]]
+      var record = ["Tarih: " + element["tarih"] + " ","Şehir: " + element["il"] + " ","Vaka: " + element["vaka"] + " ","Vefat: " + element["vefat"] + " ","Taburcu: " + element["taburcu"]]
       console.log("record: "+record)
 
-      textCity += "<li>" + "<a href="+"http://localhost:3000/CaseModel/city/"+ element.il + ">" + record + "</li></a>"
+      textCity+="<li>"+record+"</li>"
       datalist.push(record)
   });   
   textCity+="</ul>"
@@ -257,10 +323,9 @@ async function fetcherDates(prop,response,datalist){
   //res is the array of JSON documents, datalist keeps each document as a string object
   textDate="<ul>"
     response.data.forEach(element => {
-        var record = [JSON.stringify(element["id"]),element["tarih"],element["il"],element["vaka"],element["vefat"],element["taburcu"]]
+        var record = ["Tarih: " + element["tarih"] + " ","Şehir: " + element["il"] + " ","Vaka: " + element["vaka"] + " ","Vefat: " + element["vefat"] + " ","Taburcu: " + element["taburcu"]]
         console.log("record: "+record)
 
-        //this.datalist.push(JSON.stringify(element,null,2)+"\r")
         textDate+="<li>"+record+"</li>"
         datalist.push(record)
     });   
@@ -329,59 +394,3 @@ async function postData(url, data) {
 }
 
 /////////////////////////////////////////////////////////// CHART OPERATIONS ///////////////////////////////////////////////////////////////////////////////
-function render(){
-  /*
-  var chart = new CanvasJSReact.CanvasJSChart("chartContainer", {
-	theme: "dark1", // "light1", "light2", "dark1", "dark2"
-	exportEnabled: true,
-	animationEnabled: true,
-	title: {
-		text: "Desktop Browser Market Share in 2016"
-	},
-	data: [{
-		type: "pie",
-		startAngle: 25,
-		toolTipContent: "<b>{label}</b>: {y}%",
-		showInLegend: "true",
-		legendText: "{label}",
-		indexLabelFontSize: 16,
-		indexLabel: "{label} - {y}%",
-		dataPoints: [
-			{ y: 51.08, label: "Chrome" },
-			{ y: 27.34, label: "Internet Explorer" },
-			{ y: 10.62, label: "Firefox" },
-			{ y: 5.02, label: "Microsoft Edge" },
-			{ y: 4.07, label: "Safari" },
-			{ y: 1.22, label: "Opera" },
-			{ y: 0.44, label: "Others" }
-		]
-	}]
-});
-chart.render();
-*/
-  const options = {
-      title: {
-        text: "Basic Column Chart in React"
-      },
-      data: [{				
-                type: "column",
-                dataPoints: [
-                    { label: "Apple",  y: 10  },
-                    { label: "Orange", y: 15  },
-                    { label: "Banana", y: 25  },
-                    { label: "Mango",  y: 30  },
-                    { label: "Grape",  y: 28  }
-                ]
-       }]
-   }
-
-   return (
-      <div>
-        <CanvasJSReact.CanvasJSChart options = {options}
-            /* onRef = {ref => this.chart = ref} */
-        />
-      </div>
-    );
-  
-}
-

@@ -21,8 +21,8 @@ const CaseModelAllCase = () => {
     //res is the array of JSON documents, datalist keeps each document as a string object
     text="<ul>"
     res.forEach(element => {
-        let linked_tarih = "<a href="+"http://localhost:3000/CaseModel/date/"+ element["tarih"] + ">" + element["tarih"] + "></a>"
-        let linked_sehir = "<a href="+"http://localhost:3000/CaseModel/city/"+ element["il"] + ">" + element["il"] + "></a>"
+        let linked_tarih = "<a href="+"http://localhost:3000/CaseModel/date/"+ element["tarih"] + ">" + element["tarih"] + "</a>"
+        let linked_sehir = "<a href="+"http://localhost:3000/CaseModel/city/"+ element["il"] + ">" + element["il"] + "</a>"
         var record = [JSON.stringify(element["id"]),linked_tarih,linked_sehir,element["vaka"],element["vefat"],element["taburcu"]]
         console.log("record: "+record)
 
@@ -40,13 +40,13 @@ const CaseModelAllCase = () => {
 
     if(index.length===0){
       setTimeout(
-        () => myRef.current.innerHTML = text,500
+        () => myRef.current.innerHTML = text,15        
       )   
     }
     //otherwise show the specified record
     else{
       setTimeout(
-        () => myRef.current.innerHTML = text,500
+        () => myRef.current.innerHTML = text,15
       )   
     }
   }    
